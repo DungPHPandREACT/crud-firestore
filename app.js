@@ -1,6 +1,7 @@
 import {
   collection,
   addDoc,
+  getDocs,
   getFirestore,
 } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js';
 import { app } from './config.js';
@@ -27,3 +28,14 @@ document.getElementById('submit').onclick = async function () {
     console.log('Document written with ID: ', docRef.id);
   }
 };
+
+let stringHTML = '';
+
+const querySnapshot = await getDocs(collection(db, 'posts'));
+querySnapshot.forEach((doc) => {
+  stringHTML += `
+        <a href='./detail.html?id=${doc.id}'>${doc.data().title}</a>
+    `;
+});
+
+document.getElementById('content-posts').innerHTML = stringHTML;
